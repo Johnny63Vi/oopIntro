@@ -1,0 +1,112 @@
+\hypertarget{LinuxTipsTrics}{}
+\chapter{Tips\&Tricks\&Troubleshooting voor Linux omgeving} \label{app:linux}
+\section{Troubleshooting}
+\textbf{\textit{Geen beeld in VNC}}.\newline 
+Je hebt VNC opgestart, maar na een tijdje heb je geen beeld meer.
+Waarschijnlijk komt dat door de screensaver. VNC reageert niet op op een `virtuele` toetsenbord of muis. Druk dan het knopje \textbf{`restart\_x`} in log opnieuw in op VNC. 
+\textit{De screensaver wordt uitgeschakeld als je na het inloggen in VNC een terminal venster opent.} Daarmee worden direct een paar commando's uitgevoerd waarmee de screensaver wordt uitgezet.\newline
+\textbf{\textit{DDD `doet raar`}}.\newline 
+De instellingen van de DDD debugger staan in de folder .ddd die staat in de home directory (\textit{/home/rock}). Soms is het eenvoudiger om deze directory te deleten dan de instellingen aan te passen (tips: \texttt{ls -al $\sim$} en \texttt{rm -rf $\sim$/.ddd}).
+
+\section{Tips} \label{app:tips}
+\textbf{\textit{Je kunt de tips en trucs toepassen bij de commando's in \ref{app:commands}}}
+
+\begin{itemize}
+	\item 
+	Linux is in tegenstelling tot Windows ‘case-sensitive’. Het maakt dus verschil of je hoofdletters of kleine letters gebruikt. Voorbeeld: Als je map \texttt{Documents} heet, dan werkt \texttt{cd Documents} wel en \texttt{cd documents} niet.
+	\item 
+	Tip bij het invoeren van map- en bestandsnamen: tik de eerste 3 letters in en druk de Tab toets in, Linux vult dan automatisch de rest van de naam in. Voordeel: je hoeft minder te tikken en het is gelijk een foutcontrole.
+	\item 
+	Op en neer pijltjestoetsen in de terminal: door vorige commando's heen gaan.
+	\item
+	Nog een verschil met Windows; Windows werkt met bestandsextensies: *.exe is een uitvoerbaar (executable) betand. In Linux doet de extensie er niet toe, maar zet je met \texttt{chmod +x} het 'executable' bitje aan, een attribuut op het bestand.
+	\item  
+	Hulp vragen bij commando’s: \texttt{<\textit{commando}> --help}. Voorbeeld: \texttt{ls  --help}
+	Uitgebreidere informatie: \texttt{man <\textit{commando}>}. Voorbeeld: \texttt{man ls}\newline
+	Voor de bedieningstoetsen van \texttt{man} druk ‘h’.
+	\item 
+	\href{https://phoenixnap.com/kb/linux-sudo-command}{Uitleg en gebruik van het sudo commando}  ('\textbf{Su}per \textbf{U}ser \textbf{Do}'); admin rechten.
+	\item
+	Zoeken in het bestandssysteem: \texttt{sudo find / -name \textit{<bestandsnaam>}}
+	zoekt naar \texttt{\textit{<bestandsnaam>}} vanaf de root '/' in het gehele bestandssysteem.
+	\item 
+	\href{https://linuxconfig.org/filesystem-basics}{Uitleg van- en navigeren door het bestandssysteem.}
+	\item
+	Wil je meer uitleg, \href{https://duckduckgo.com/?q=linux+command+cheatsheet}{zoek dan naar 'Linux Command Cheatsheet'}. \newline
+	Ik vind \href{https://linuxconfig.org/linux-commands-cheat-sheet}{deze uitleg} wel prettig.
+	\item 
+	Om bestanden vanaf je PC naar en van de RockPi te kopiëren kun je \href{https://winscp.net/eng/download.php}{WinSCP} gebruiken. Gebruik als protocol SCP, dit gebruikt SSH. Maak een nieuwe site aan, vul IP adres, username en password in. Kies Opslaan (met wachtwoord) en vul bij 'map' in \texttt{/home/rock}. Het gebruik wijst zichzelf.
+\end{itemize}
+
+% \break
+\section{Linux commando's (zie ook tips in \ref{app:tips})}\label{app:commands}
+
+%\begin{table}[ht] %[h!]
+	\begin{tabular}{|l|l|}
+		\hline
+		%\multicolumn{2}{|l|}{Linux commando's}    \\ \hline
+		Commando & Uitleg \\ \hline
+		\texttt{ls \textbf{-l}} & \textbf{L}ange directory listing - Opvragen van bestanden in een directory  \\ \hline
+		\texttt{cd} & change directory; \texttt{cd ..} betekent 1 niveau omhoog naar de root '/' \\ \hline
+	    \texttt{cp} & copy \\ \hline
+	    \texttt{rm} & remove - Verwijderen van bestanden en mappen. \\ \hline
+	    \texttt{mv} & move - Verplaatsen van bestanden en mappen. \\ \hline
+	    \texttt{cat} & bestand bekijken \\ \hline
+	    \texttt{pwd} & In welke directory ben ik nu? ('present working directory') \\ \hline
+	    \texttt{mkdir} & make directory \\ \hline
+		\texttt{rmdir} & remove (lege) directory \\ \hline
+	    \texttt{history} & Laat lijst zien van laatst uitgevoerde commando's \\ \hline
+	    \texttt{sudo} & Zet dit vóór je commando om het met admin rechten uit te voeren.\\
+	    ~ & \emph{Alle onderstaande commando's hebben \textbf{sudo} nodig!} \\ \hline
+	    \texttt{chmod} & (lees/schrijfrechten wijzigen, +x maakt bestand executable. \\ \hline
+	    \texttt{chown} & eigenaar van bestand / map wijzigen \\ \hline
+	    \texttt{journalctl} & journalctl -n 30 laat de laatste 30 regels linux systemlog zien. \\ \hline
+	    \texttt{reboot} & opnieuw opstarten \\ \hline
+	\end{tabular}
+%\end{table}
+% Lelijke manier om tabel bovenaan de pagina te zetten (Gert). Standaard uitlijning is onderaan pagina.
+% ~\\~\\~\\~\\~\\~\\~\\~\\~\\~\\~\\~\\~\\~\\~\\~\\~\\~\\~\\~\\~\\~\\~\\~\\
+
+%\break
+\newpage
+\section{Uitleg GPIO poorten in Linux}\label{app:gpiolinux}
+In Linux wordt alles gerepresenteerd als een bestand. Of het nu een volledige disk of een device is, je kunt het als een bestand openen en lezen en schrijven. Dit geldt ook voor GPIO pinnen (‘General Purpose Input/Output’ pinnen). Deze pinnen gebruik je op dezelfde manier als de pinnen van een microcontroller (denk aan een Arduino Uno, of een Microbit). Je kunt pinnen als uitgang zetten en hoog of laag maken, of als ingang instellen en uitlezen of een pin hoog of laag is (en nog meer, bijvoorbeeld pull-up en pull-down en reageren op events, maar dat gaan we niet behandelen).\newline
+Omdat pinnen gerepresenteerd worden door bestanden, geldt ook dat er rechten op gezet worden in het bestandssysteem. Meestal kan een standaard gebruiker (zoal ‘rock’) er niet bij. Alleen ‘root’ kan er standaard bij. Voor het practicum hebben we de rechten zo ingesteld dat gebruiker ‘rock’ standaard gebruik kan maken van de op de breakout board beschikbare pinnen.\newline
+Voorbeeld van de handelingen om een pin in te stellen en uit te lezen of aan te sturen, het hekje ‘\#’ aan het begin van de regel geeft aan dat het commentaar (uitleg) is:
+
+\begin{lstlisting}[language=bash]
+# GPIO pin 135 (de rode led) aanzetten:
+echo 135 > /sys/class/gpio/export
+# GPIO pin 135 (de rode led) als uitgang instellen:
+echo out > /sys/class/gpio/gpio135/direction
+# GPIO pin 135 (de rode led) hoog maken:
+echo 1 > /sys/class/gpio/gpio135/value
+# 1 seconde wachten
+sleep 1
+# GPIO pin 135 (de rode led) laag maken:
+echo 0 > /sys/class/gpio/gpio135/value
+\end{lstlisting}
+	
+Je kunt ook de hele bestandstructuur van de pin bekijken:
+\begin{lstlisting}[language=bash]
+rock@rockpi-4b:~$ ls -l /sys/class/gpio/gpio135/
+total 0
+-rwSrwSr-- 1 root gpio 4096 Mar 12 18:49 active_low
+lrwxrwxrwx 1 root gpio    0 Mar 12 18:49 device -> ../../../pinctrl
+-rwSrwSr-- 1 root gpio 4096 Mar 12 18:49 direction
+-rwSrwSr-- 1 root gpio 4096 Mar 12 18:49 edge
+drwsrwsr-x 2 root gpio    0 Mar 12 18:49 power
+lrwxrwxrwx 1 root gpio    0 Mar 12 18:49 subsystem -> ../../../../../class/gpio
+-rwSrwSr-- 1 root gpio 4096 Mar 12 18:49 uevent
+-rwSrwSr-- 1 root gpio 4096 Mar 13 10:55 value
+\end{lstlisting}
+	
+En een bepaalde status uitlezen (in dit geval of de pin als ingang of uitgang is ingesteld):
+\begin{lstlisting}[language=bash]
+rock@rockpi-4b:~$ cat /sys/class/gpio/gpio135/direction
+out
+rock@rockpi-4b:~$
+\end{lstlisting}
+	
+Tot zover de uitleg. Ik laat GPIO pin als ingang en gebruik met PWM voor nu achterwege. Als je daar meer van wilt weten, kijk dan even naar het zelftest scriptje: \texttt{sudo cat /usr/local/bin/pwmtest.sh} 
+

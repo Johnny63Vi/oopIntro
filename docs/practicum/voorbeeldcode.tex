@@ -1,0 +1,320 @@
+\chapter{Voorbeeld code}
+\section{De klasse Aanwezigheid}\label{cpt:klAanw}
+\begin{lstlisting}[caption=Het werken met de klasse Aanwezigheid, frame=tlrb,label={lst:vbtstAanwezig}]{Name}
+#include <iostream>
+#include "Aanwezigheid.h"
+using namespace std;
+
+int main() {
+	const Aanwezigheid lokaalD2136(11);
+	Aanwezigheid lokaalD2001;
+	lokaalD2001.naarBinnen();
+	lokaalD2001.naarBinnen();
+	lokaalD2001.verlaat();
+	cout<<"Het aantal in lokaal D2136="<<lokaalD2136.zijnAanwezig()<<endl;
+	cout<<"Het aantal in lokaal D2001="<<lokaalD2001.zijnAanwezig()<<endl;
+	return 0;
+}
+\end{lstlisting}
+\noindent\hspace{-1cm}\begin{minipage}{.43\textwidth}
+	\begin{lstlisting}[caption=Aanwezigheid declaratie file(.h),frame=tlrb,label={lst:vbAanwezigH}]{Name}
+class Aanwezigheid
+{
+	public:
+	  Aanwezigheid();
+	  Aanwezigheid(int);
+	  void naarBinnen();
+	  void verlaat();
+	  int zijnAanwezig()const;
+	
+	private:
+	  int aantal;
+};
+	\end{lstlisting}
+\end{minipage}\hfill
+\hspace{0.7cm}\begin{minipage}{.70\textwidth}
+\begin{lstlisting}[caption=Aanwezigheid implementatie file(.cpp),frame=tlrb,label={lst:vbAanwezigCPP}]{Name}
+#include "Aanwezigheid.h"
+
+Aanwezigheid::Aanwezigheid():aantal(0) {
+}
+Aanwezigheid::Aanwezigheid(int x):aantal(x) {
+}
+void Aanwezigheid::naarBinnen() {
+	aantal++;
+}
+void Aanwezigheid::verlaat() {
+	aantal--;
+}
+int Aanwezigheid::zijnAanwezig()const {
+	return aantal;
+}
+\end{lstlisting}
+\end{minipage}
+\newpage
+\section{De klasse Breuk}\label{cpt:klBreuk}
+\vspace{0.1cm}\begin{lstlisting}[caption=Het werken met de klasse Aanwezigheid, frame=tlrb,label={lst:vbtstAanwezig}]{Name}
+#include <iostream>
+using namespace std;
+#include "Breuk.h"
+int main() {
+	Breuk a(1,2);
+	Breuk b;
+	Breuk c(2);  
+	a.plus(c);
+	cout<<b.teller()<<" "<<b.noemer();
+	return 0;
+}
+\end{lstlisting}
+\noindent\hspace{-1cm}\begin{minipage}{.43\textwidth}
+	\begin{lstlisting}[caption=Breuk declaratie file(.h),frame=tlrb,label={lst:vbBreukH}]{Name}
+class Breuk {
+	public:
+	Breuk();
+	Breuk(int);  
+	Breuk(int,int);               
+	void drukaf();   
+	int teller()const;
+	int noemer()const;
+	void plus(const Breuk& b);
+	private:                       
+	int boven;                 
+	int onder;                
+	void normaliseer();        
+};
+	\end{lstlisting}
+\end{minipage}\hfill
+\hspace{0.7cm}\begin{minipage}{.70\textwidth}
+	\begin{lstlisting}[caption=Breuk implementatie file file(.cpp),frame=tlrb,label={lst:vbBreukCPP}]{Name}
+#include "Breuk.h"
+#include <iostream>
+using namespace std;
+Breuk::Breuk():boven(0),onder(1) {
+}
+Breuk::Breuk(int t):boven(t),onder(1) {
+}
+Breuk::Breuk(int t,int n):boven(t),onder(n) {
+}
+void Breuk::drukaf() {
+	cout << boven << "/" << onder << endl;
+}
+void Breuk::plus(const Breuk& b) {
+	boven = boven * b.onder + onder * b.boven;
+	onder *= b.onder;
+	normaliseer();
+}
+int Breuk::teller()const {
+	return boven;
+}
+int Breuk::noemer()const {
+	return onder;
+}
+unsigned int ggd(unsigned int n, unsigned int m) {
+	if (n == 0) return m;
+	if (m == 0) return n;
+	while (m != n)
+		if (n > m) n -= m;
+    	else m -= n;
+	return n;
+	}
+void Breuk::normaliseer() {
+	if (onder < 0) {
+		onder =- onder;
+		boven =- boven;
+	}
+	int d(ggd(boven < 0 ? -boven : boven, onder));
+	boven /= d;
+	onder /= d;
+}
+\end{lstlisting}
+\end{minipage}
+
+\section{De verschillende honden klassen}\label{cpt:klHonden}
+\vspace{0.1cm}\begin{lstlisting}[caption=Het werken met de klassen Hond en afgeleide, frame=tlrb,label={lst:vbtstAanwezig}]{Name}
+#include <iostream>
+using namespace std;
+#include "Tekkel.h"
+#include "SintBernard.h"
+
+void doeJeWerk(Hond& h) {
+	h.haalKrant();
+	// ...
+}
+int main() {
+	
+	Tekkel tk("Rocky");
+	SintBernard sb("Boris",2);
+	Hond& refHd1(tk);
+	doeJeWerk(sb);
+	doeJeWerk(tk);
+	return 0;
+}
+\end{lstlisting}
+\newpage
+\subsection{De klasse Hond}
+De code van de header-(.h) en de implementatiefile(.cpp)\\ 
+
+\noindent\hspace{-1.1cm}\begin{minipage}{.58\textwidth}
+\begin{lstlisting}[caption=Hond declaratie file(.h),frame=tlrb,label={lst:vbHondH}]{Name}
+#include<string>
+
+using namespace std;
+
+class Hond {
+   private:
+	   string naam;
+	
+   public:
+       Hond(string);
+       Hond();
+       virtual ~Hond();
+	   void haalKrant();
+ /*pure virtual functie void blaf()
+   Hond heeft geen eigen blaf functie*/
+	   virtual void blaf()=0; 
+	
+ /*
+  indien geen pure virtual functie
+  Hond moet een eigen blaf functie hebben
+  (virtual) void blaf(); 
+  */
+	
+	   string name()const;
+};
+\end{lstlisting}
+\end{minipage}\hfill
+\hspace{0.9cm}\begin{minipage}{.58\textwidth}
+\begin{lstlisting}[caption=Hond implementatie file file(.cpp),frame=tlrb,label={lst:vbHondCPP}]{Name}
+#include "Hond.h"
+#include "Tekkel.h"
+#include <iostream>
+
+using namespace std;
+
+
+//constructoren
+Hond::Hond()
+{
+	cout<<"ik ben een Hond"<<endl;
+}
+Hond::Hond(string s): naam(s)
+{
+	cout<<"ik ben een Hond"<<endl;
+}
+
+//destructor
+Hond::~Hond()
+{
+	cout<<"ik was een hond"<<endl;
+}
+
+string Hond::name()const {
+	return naam;
+}
+
+
+void Hond::haalKrant() {
+	// ...
+	blaf();
+}
+
+/*
+De functie blaf indien in de .h file
+niet pure virtual gedeclareerd is.
+
+void Hond::blaf() {
+	cout<<naam<<" blaf blaf"<<endl;
+}
+
+*/
+
+\end{lstlisting}
+\end{minipage}
+
+\newpage
+\subsection{De klasse Tekkel}
+De code van de header-(.h) en de implementatiefile(.cpp)\\ 
+
+\noindent\hspace{-1cm}\begin{minipage}{.43\textwidth}
+\begin{lstlisting}[caption=Tekkel declaratie file(.h),frame=tlrb,label={lst:vbTekkelH}]{Name}
+#include <string>
+using namespace std;
+
+#include "Hond.h"
+
+class Tekkel :public Hond{
+	public:
+      Tekkel(string);
+	  ~Tekkel();
+	  void blaf();
+};		
+\end{lstlisting}
+\end{minipage}\hfill
+\hspace{0.7cm}\begin{minipage}{.60\textwidth}
+\begin{lstlisting}[caption=Tekkel implementatie file file(.cpp),frame=tlrb,label={lst:vbTekkelCPP}]{Name}
+#include "Tekkel.h"
+#include <iostream>
+using namespace std;
+
+
+Tekkel::Tekkel(string s):Hond(s) {
+	cout<<"ik ben een tekkel"<<endl;
+}
+Tekkel::~Tekkel() {
+	cout<<"ik was een Tekkel"<<endl;
+}
+void Tekkel::blaf() {
+	cout<< "kef kef"<<endl;
+}		
+\end{lstlisting}
+\end{minipage}
+
+\subsection{De klasse SintBernard}
+De code van de header-(.h) en de implementatiefile(.cpp)\\ 
+
+\noindent\hspace{-1cm}\begin{minipage}{.43\textwidth}
+\begin{lstlisting}[caption=SintBernard declaratie file(.h),frame=tlrb,label={lst:vbSintBernardH}]{Name}
+#include "Hond.h"
+
+class SintBernard :public Hond{
+	
+   public:
+      SintBernard(int);
+      SintBernard(string);
+      SintBernard(string,int);
+      ~SintBernard();
+      void blaf();
+	
+	private:
+	  int whiskeyvat;
+};		
+\end{lstlisting}
+\end{minipage}\hfill
+\hspace{0.7cm}\begin{minipage}{.70\textwidth}
+	\begin{lstlisting}[caption=SintBernard implementatie file file(.cpp),frame=tlrb,label={lst:vbSintBernardCPP}]{Name}
+#include "SintBernard.h"
+#include <iostream>
+
+using namespace std;
+
+SintBernard::SintBernard(int v):whiskeyvat(v)
+{
+	cout<<"Ik ben een SintBernard"<<endl;
+}
+SintBernard::SintBernard(string n,int v):Hond(n),whiskeyvat(v)
+{
+	cout<<"Ik ben een SintBernard"<<endl;
+}
+SintBernard::SintBernard(string nm):Hond(nm),whiskeyvat(0)
+{
+	cout<<"Ik ben een SintBernard"<<endl;
+}
+SintBernard::~SintBernard()
+{
+	cout<<"Ik was een SintBernard "<<endl;
+}
+void SintBernard::blaf() {
+	cout<<"WOEF WOEF"<<endl;
+}		
+	\end{lstlisting}
+\end{minipage}
