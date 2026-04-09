@@ -83,7 +83,29 @@ Wanneer contact is gemaakt met de RockPi, zoals beschreven in hoofdstuk \ref{chp
 \end{figure}
 De buitenste kolom geeft het GPIO nummer aan waarop deze geprogrammeerd kan worden. Zo zit de rode LED aangesloten op GPIO nummer 135. De \textbf{dikgedrukte} pinnen worden gebruikt met de printplaat. In de kolom \textbf{breakout} zie je wat op die pinnen zit.
 
-\paragraph[Opdracht 1a]{Opdracht 1a, het eerste programmaatje op de RockPi}	
+%\paragraph[Opdracht 1a]{Opdracht 1a, het eerste programmaatje op de RockPi}	
+
+	\begin{opdracht}[Compileren en runnen direct op de RockPi]
+	Werken via ssh op de rockPi:
+	
+	\begin{enumerate}[label=\alph*)]
+	\item	Login via ssh op de rockPi.
+	\item Plaats de \hyperlink{chp:USBstick}{USB stick} in de RockPi.
+\item Ga naar de directory van je USB stick
+\begin{itemize}
+	\item \textit{cd usb} (het hele pad is \textit{/home/rock/usb} )
+\end{itemize}	
+	    \item Maak een directory \textit{ledje} aan en ga daar na toe.
+	\begin{itemize}
+		\item \textit{mkdir ledje}
+		\item \textit{cd ledje}
+	\end{itemize}
+
+
+	\end{enumerate}
+	
+\end{opdracht}
+
 
 \begin{enumerate}
 	\item Plaats de \hyperlink{chp:USBstick}{USB stick} in de RockPi.
@@ -289,7 +311,29 @@ int main() {
 \end{itemize}
 \end{enumerate}
 
-\paragraph{Opdracht:}
+%\paragraph{Opdracht:}
+	\begin{opdracht}[Het gebruik van de debugger]
+Hierbij wordt in VSC stap voor stap het programma doorlopen (debuggen), waarbij de inhoud van de objecten van de klasse Led wordt getoond.
+
+	
+	\begin{enumerate}[label=\alph*)]
+	
+	\item Zet een breakpoint op regel 13, de regel met \texttt{\textit{Led rood(RODELED,"Rood", "Pietje Puk");}} Als het goed is staat nu vóór de 13 een rood bolletje.
+	
+	\item Zorg dat in het 'Explorer' paneel \textit{test.cpp} is geselecteerd. \\Start nu het debuggen (druk \textbf{F5}). Het programma wordt uitgevoerd tot het breakpoint.  Er verschijnt een pijl over het breakpoint. 
+	\item In het linker paneel bovenaan zie je 'VARIABLES' met daaronder de locale variabelen. Klap 'rood' en 'geel' open, je kijkt nu naar gedeclareerde- maar nog niet-geïnitialiseerde objecten.
+	\item Klik/druk op 'Step Over' \textbf{(F10)}. Regel 13 wordt uitgevoerd. 
+	\\ Beantwoord: Wat zie je bij 'rood' veranderen? \\
+	De pijl komt voor de regel \textit{Led geel(GELELED,"Geel");} te staan.
+	\item Klik/druk op 'Step Into' \textbf{(F11)}, met dit commando wordt naar de constructor van de klasse Led gestapt. 
+	\item Nu zie je links bij 'VARIABLES' andere variabelen; \textit{pin} en \textit{kleur}. \\Beantwoord: Waar komt de waarde van deze variabelen vandaan?
+	\item Klik 'this' open en druk 'Step Over' \textbf{(F10)}.  \\(\textit{TIP}: Zorg dat er een commando in de constructor staat.) 
+	\\Beantwoord: Wat zie je in/onder 'this' veranderen? Waardoor komt dat?
+	\item Doorloop het programma verder stap voor stap; experimenteer met 'Step Over' \textbf{(F10)}, 'Step Into' \textbf{(F11)} en 'Step Out' \textbf{(Shift+F11)}
+\end{enumerate}
+	
+\end{opdracht}
+
 We gaan hierbij stap voor stap het programma doorlopen (debuggen), waarbij de inhoud van de objecten van de klasse Led wordt getoond.
 
 \begin{enumerate} [label=\alph*]

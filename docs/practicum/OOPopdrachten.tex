@@ -36,9 +36,46 @@
 \usepackage{float}
 \usepackage{multirow}
 \usepackage{tabularx}
+\usepackage{tcolorbox}
+
 %\usepackage{lststyle-VS2017.sty}
 
 %\usepackage{minted} 
+% Counter
+\newcounter{opdracht}
+
+% ===== Lijst van opdrachten =====
+\makeatletter
+\newcommand{\listofopdrachten}{%
+	\section*{Lijst van opdrachten}%
+	\addcontentsline{toc}{section}{Lijst van opdrachten}%
+	\@starttoc{lop}%
+}
+
+\newcommand*\l@opdracht{\@dottedtocline{1}{1.5em}{2.3em}}
+\makeatother
+
+% ===== Opdracht box =====
+\newtcolorbox{opdrachtbox}[1][]{
+	colback=gray!10,
+	colframe=black,
+	fonttitle=\bfseries,
+	#1
+}
+
+% ===== Opdracht omgeving =====
+\newenvironment{opdracht}[1][]
+{
+	\refstepcounter{opdracht}
+	
+	% toevoegen aan lijst
+	\addcontentsline{lop}{opdracht}{\protect\numberline{\theopdracht}#1}
+	
+	\begin{opdrachtbox}[title=Opdracht \theopdracht: #1]
+	}
+	{
+	\end{opdrachtbox}
+}
 
 
 %\usepackage{fontspec}
@@ -169,7 +206,7 @@
 	
 	%{\hspace{-20pt}\begin{bfseries}\Huge{\color{black} Realtime programmeren} \end{bfseries}  } \\
 		%{(practicumopdracht Mbed)}\\
-	{Versie 1.45}
+	{Versie 2.0}
 	%\ThisCenterWallPaper{0.9}{figuren/voorpagina.png}
 	
 	%	\vfill	
@@ -180,13 +217,15 @@
 }
 
 
-
 \begin{document}
 	
 	
 	\maketitle
 	
 	\tableofcontents
+	
+%		\section*{Lijst van opdrachten}
+	\listofopdrachten
 	
 	\let\cleardoublepage\clearpage
 	\input{weektabel}
