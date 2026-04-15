@@ -1,17 +1,17 @@
 #include "GpioPin.h"
-#include <thread>
-#include <chrono>
+#include <unistd.h>
 
-void wacht(unsigned int w) {
-    std::this_thread::sleep_for(std::chrono::seconds(w));
-}
-
+/**
+ * @brief Er wordt een object aangemaakt van de klasse GpioPin 
+ * Deze gaat 4 seconde aan.
+ */
 int main() {
-    GpioPin led("led-app", 21);
+	
+    GpioPin ledR(40); // fysieke pin 40, rockpi 135.
 
-    led.pinAan();
-    wacht(4);
-    led.pinUit();
-    
+    ledR.pinAan();
+    sleep(4);
+    ledR.pinUit();
+
     return 0;
 }

@@ -1,56 +1,48 @@
 #ifndef GPIOPIN_H
 #define GPIOPIN_H
 
-#include <string>
-#include <gpiod.h>
+#include <mraa/gpio.hpp>
 
 /**
- * @brief Klasse voor het aansturen van een GPIO pin via libgpiod
+ * @class GpioPin
+ * @brief Klasse voor het aansturen van een GPIO pin via MRAA.
  *
- * Deze klasse maakt gebruik van de moderne GPIO interface (character device)
- * zoals gebruikt op de Raspberry Pi 4. Elke instantie beheert één GPIO pin.
+ * Deze klasse maakt gebruik van de MRAA library om een GPIO pin
+ * te initialiseren en eenvoudig aan of uit te zetten.
  */
 class GpioPin {
 public:
     /**
      * @brief Constructor
+     * @param pin Nummer van de GPIO pin
      *
-     * Initialiseert de GPIO pin als output en zet deze standaard op LOW.
-     *
-     * @param name Naam van de applicatie (consumer name, zichtbaar in gpioinfo)
-     * @param pin GPIO pin nummer (BCM numbering, bijv. 16)
-     *
-     * @throws std::runtime_error als initialisatie mislukt
+     * Initialiseert de GPIO pin en zet deze als output.
      */
-    GpioPin(const std::string& name, int pin);
+    GpioPin(int pin);
 
     /**
      * @brief Destructor
      *
-     * Geeft de GPIO pin vrij en sluit de chip netjes af.
+     * Ruimt de GPIO resource op.
      */
     ~GpioPin();
 
     /**
-     * @brief Zet de GPIO pin HIGH
+     * @brief Zet de pin aan (HIGH)
      *
-     * Activeert de pin (3.3V op Raspberry Pi).
+     * Schrijft een logische 1 naar de GPIO pin.
      */
     void pinAan();
 
     /**
-     * @brief Zet de GPIO pin LOW
+     * @brief Zet de pin uit (LOW)
      *
-     * Deactiveert de pin (0V).
+     * Schrijft een logische 0 naar de GPIO pin.
      */
     void pinUit();
 
 private:
-    std::string name;                 ///< Naam van de consumer (applicatie)
-    int pin;                          ///< GPIO pin nummer (BCM)
-
-    struct gpiod_chip* chip;          ///< GPIO chip handle
-    struct gpiod_line_request* request; ///< GPIO request handle
+    mraa::Gpio* gpio; /**< Pointer naar MRAA GPIO object */
 };
 
-#endif
+#endif // GPIOPIN_H
