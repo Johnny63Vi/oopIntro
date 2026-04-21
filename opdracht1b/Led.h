@@ -2,6 +2,7 @@
 #define LED_H
 
 #include <string>
+#include "GpioPin.h"
 
 using namespace std;
 #pragma once
@@ -25,5 +26,6 @@ class Led
     int pinNr;
     int status;  
     string eigenaar;
+    GPioPin pin;
 };
 #endif

@@ -3,9 +3,9 @@
 #include "Led.h"
 
 using namespace std;
-#define RODELED 135
-#define GROENELED 132
-#define GELELED 134
+#define RODELED 40
+#define GROENELED 38
+#define GELELED 36
 
 int main() {
 
