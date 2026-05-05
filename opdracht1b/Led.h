@@ -12,7 +12,7 @@ using namespace std;
 class Led
 {
   public:
-    Led(int);
+    Led(GpioPin);
     ~Led();
     void zetAan();
     void zetUit();
@@ -26,6 +26,6 @@ class Led
     int pinNr;
     int status;  
     string eigenaar;
-    GPioPin pin;
+    GpioPin pin;
 };
 #endif
