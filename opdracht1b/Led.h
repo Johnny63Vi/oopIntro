@@ -12,18 +12,16 @@ using namespace std;
 class Led
 {
   public:
-    Led(GpioPin);
+    Led(int);
     ~Led();
     void zetAan();
     void zetUit();
     string ledKleur()const;
     int isLedAan()const;
-    int pinNummer() const;
     string deEigenaar() const;
 
   private:
     string kleur;
-    int pinNr;
     int status;  
     string eigenaar;
     GpioPin pin;
